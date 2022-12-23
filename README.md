@@ -5,6 +5,8 @@ This project's goal is to practice the basics of the 'django' framework;\
 \
 \
 \
-There are two missing folders:\ 
-  1 - entries
-  2 - (virtuel envirement)
+There are two missing folders:
+
+  1. entries folder
+  2. (virtuel environment) folder
+ => because of some git problems. 
