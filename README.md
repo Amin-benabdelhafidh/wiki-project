@@ -21,7 +21,7 @@ This project's goal is to practice *the basics* of the __'django'__ framework;
 *Search*
 ![Searching](https://github.com/Amin-benabdelhafidh/wiki-project/blob/main/img1.png?raw=true)
 
-*Select* *random* *page*
+*Select* *random* *page* \
 ![Selecting_random](https://github.com/Amin-benabdelhafidh/wiki-project/blob/main/img6.png?raw=true)
 
 
