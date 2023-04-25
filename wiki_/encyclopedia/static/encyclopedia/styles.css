@@ -47,3 +47,8 @@ textarea {
 .sidebar h2 {
     margin-top: 5px;
 }
+
+.content{
+    margin-top: 2vh;
+    font-size: 20px;
+}

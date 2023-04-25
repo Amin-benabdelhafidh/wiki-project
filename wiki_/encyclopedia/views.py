@@ -9,7 +9,9 @@ from . import util
 class NewPageform(forms.Form):
     title = forms.CharField(label='',widget=forms.TextInput(attrs={'placeholder': 'Title...'}))
     text = forms.CharField(label='',widget=forms.Textarea(attrs={'placeholder': 'Enter your text...'}))
-    edit = forms.BooleanField(initial=False,widget=forms.HiddenInput())
+
+class EditPageform(forms.Form):
+    text = forms.CharField(label='',widget=forms.Textarea(attrs={'placeholder': 'Enter your text...'}))
 
 
 
@@ -64,68 +66,53 @@ def search(request):
 
 
 def newpage(request):
-    # check request method
     if request.method == 'POST':
         form = NewPageform(request.POST)
-        # check validation
         if form.is_valid():
-            # get data
             title = form.cleaned_data['title']
-            text = form.cleaned_data['text']
-            edit = form.cleaned_data['edit']
-
-            if edit is False:
-                if util.get_entry(title) is None:
-                    util.save_entry(title, text)
-                    return HttpResponseRedirect(reverse("entry", kwargs={'entry': title}))
-
-            elif edit is True:
-                util.save_entry(title, text)
-                return HttpResponseRedirect(reverse("entry", kwargs={'entry': title}))
-
+            content = form.cleaned_data['text']
+            if util.get_entry(title) == None:
+                util.save_entry(title, content)
             else:
-                 return render(request, 'encyclopedia/newpage.html', {
-                    "form": form,
-                    "title": title,
-                    "filexists": True,
-                    "message": 'this title already exists!'
+                return render(request, "encyclopedia/newpage.html", {
+                    'msg': True,
+                    'title': title,
                 })
 
-        else:
-            return render(request, 'encyclopedia/newpage.html', {
-                "form": form
-            })
-    # render the form
-    else:
-        return render(request, "encyclopedia/newpage.html", {
-            "form": NewPageform(),
-            "filexists": False,
-            "n": True
-        })
-
-def edit(request, entry):
-    page = util.get_entry(entry)
-    if page == None:
-        return render(request, "encyclopedia\error404.html", {
-            "notfound": True,
-            "entry": entry
-        })
-    
+            return HttpResponseRedirect(f"wiki/{title}")
     else:
         form = NewPageform()
-        form['title'].initial = entry
-        form['text'].initial = page
-        form['edit'].initial = True
-        return render(request, "encyclopedia/newpage.html", {
-            'form': form,
-            'n': False
+    return render(request, "encyclopedia/newpage.html", {
+        "form": form,
+    })
+    
+
+def edit(request, entry):
+    if request.method == "POST":
+        form = EditPageform(request.POST)
+        if form.is_valid():
+            util.save_entry(entry, form.cleaned_data["text"])
+            return HttpResponseRedirect(reverse("entry", kwargs={"entry": entry}))
+    else:
+        page = util.get_entry(entry)
+        form = EditPageform()
+        form.fields['text'].initial = page
+        return render(request, "encyclopedia/edit.html", {
+            "form": form,
+            "title": entry,
         })
+    
+    
+        
 
 
 def random(request):
     l = util.list_entries()
     s = len(l)
-    x = randint(0, s - 1)
+    try:
+        x = randint(0, s - 1)
+    except ValueError:
+        return render(request, "encyclopedia/error404.html")
     for i in range(s):
         if x == i:
             return HttpResponseRedirect(reverse("entry", kwargs={'entry': l[i]}))

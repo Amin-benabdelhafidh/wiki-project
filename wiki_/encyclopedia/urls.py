@@ -9,7 +9,7 @@ urlpatterns = [
     path("newpage", views.newpage, name="newpage"),
     path("RandomPage", views.random, name="random"),
     path("wiki/<str:entry>/edit", views.edit, name="edit"),
-    path("PageNotFound", views.notfound, name='notfound'),
+    path("PageNotFound/<str:entry>", views.notfound, name='notfound'),
     path("search", views.search, name="search")
     
 ]

@@ -1,11 +1,9 @@
 {% extends "encyclopedia/layout.html" %}
 
 {% block title %}
-    {% if edit %}
-        {{ entry }}
-    {% else %}
-        New Page
-    {% endif %}
+
+    New Page
+
 {% endblock %}
 
 {% block body %}
@@ -15,7 +13,7 @@
                 <div class="mb-3">
                     {{ form.title }}
                 </div>
-                {% if filexists %}
+                {% if msg %}
                 <div class="alert alert-warning" role="alert">
                     This title does exist "<a href="wiki/{{ title }}" class="alert-link">{{ title }}</a>". Edit it if you want
                   </div>
@@ -23,11 +21,7 @@
                 <div class="mb-3">
                     {{ form.text }}
                 </div>
-                {{ form.edit }}
-                {% if n %}
+                
                 <input type="submit" name="su" value="create" class="btn btn-outline-primary">
-                {% else %}
-                <input type="submit" name="su" value="edit" class="btn btn-outline-primary">
-                {% endif %}
         </form>
 {% endblock %}

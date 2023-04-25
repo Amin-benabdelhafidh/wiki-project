@@ -5,6 +5,6 @@
 {% endblock %}
 {% block body %}
     <a name="su" class="btn btn-outline-primary" role="button" href="/wiki/{{ title }}/edit">Edit</a>  
-    <div>{{ content|safe }}</div>
+    <div class="content"><p>{{ content|safe }}</p></div>
     
 {% endblock %}
